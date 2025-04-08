@@ -1,25 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
+  subject { article.valid? }
+  let(:title) { "RSpecの基本" }
+  let(:content) { "RSpecを学びましょう。楽しいですよ！" }
+  let(:article) { Article.new(title: title, content: content) }
+
   context "正常系" do
     it "タイトルとコンテンツがあれば有効" do
-      article = Article.new(title: "RSpecの基本", content: "RSpecを学びましょう。楽しいですよ！")
-      expect(article).to be_valid
+      expect(subject).to be true
     end
   end
 
   context "異常系" do
-    it "タイトルがなければ無効" do
-      article = Article.new(title: nil, content: "RSpecを学びましょう。楽しいですよ！")
-      expect(article).not_to be_valid
+    context "タイトルがない場合" do
+      let(:title) { nil }
+      it "無効である" do
+      expect(subject).not_to be true
+      end
     end
-    it "コンテンツがなければ無効" do
-      article = Article.new(title: "RSpecの基本", content: nil)
-      expect(article).not_to be_valid
+    context "コンテンツがない場合" do
+      let(:content) { nil }
+      it "無効である" do
+        expect(subject).not_to be true
+      end
     end
-    it "コンテンツが10文字未満なら無効" do
-      article = Article.new(title: "RSpecの基本", content: "短い")
-      expect(article).not_to be_valid
+    context "コンテンツが10文字未満の場合" do
+      let(:content) { "123456789" }
+      it "無効である" do
+        expect(subject).not_to be true
+      end
     end
   end
 end
