@@ -7,4 +7,9 @@ class Article < ApplicationRecord
     validates :title
     validates :content, length: { minimum: 10 }
   end
+
+  # method
+  def comments_count
+    comments.count
+  end
 end
