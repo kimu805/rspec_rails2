@@ -24,6 +24,12 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def destroy
+    @article = Article.find(parmas[:id])
+    @article.destroy
+    head :no_content # 204
+  end
+
   private
   def article_params
     params.require(:article).permit(:title, :content)
