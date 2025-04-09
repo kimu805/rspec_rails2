@@ -133,5 +133,26 @@ RSpec.describe "Articles", type: :request do
         expect(Article.exists?(article.id)).to be false
       end
     end
+
+    context "記事が存在しない場合" do
+      it "404エラーが返される" do
+        delete "/articles/#{article.id + 1}"
+        expect(response).to have_http_status(404)
+      end
+    end
+
+    context "記事にコメントが紐づいている場合" do
+      before do
+        article.comments.create(content: "この記事へのコメント")
+      end
+
+      it "記事とコメントが削除される" do
+        expect {
+          delete "/articles/#{article.id}"
+        }.to change(Article, :count).by(-1).and change(Comment, :count).by(-1)
+
+        expect(response).to have_http_status(204)
+      end
+    end
   end
 end
