@@ -58,4 +58,25 @@ RSpec.describe "Articles", type: :request do
       end
     end
   end
+
+  describe "PATCH /articles/:id" do
+    let(:article) { Article.create(title: "古い記事", content: "これは古い記事の内容です。") }
+
+    context "有効なパラメーターの場合" do
+      it "記事を更新できる" do
+        patch "/articles/#{article.id}", params: {
+          article: {
+            title: "更新された記事",
+            content: "これは更新された記事の内容です。"
+          }
+        }
+
+        expect(response).to have_http_status(200)
+
+        json = JSON.parse(response.body)
+        expect(json["title"]).to eq("更新された記事")
+        expect(json["content"]).to eq("これは更新された記事の内容です。")
+      end
+    end
+  end
 end
