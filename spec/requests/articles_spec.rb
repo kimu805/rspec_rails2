@@ -37,5 +37,9 @@ RSpec.describe "Articles", type: :request do
         expect(json["content"]).to eq("この記事は新しく作成されました。")
       end
     end
+
+    context "無効なパラメーターである場合" do
+      it ""
+    end
   end
 end
