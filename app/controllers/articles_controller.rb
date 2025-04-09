@@ -18,7 +18,7 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
 
     if @article.update(article_params)
-      render json: @article
+      render json: @article # 200
     else
       render json: @article.errors, status: :unprocessable_entity
     end
