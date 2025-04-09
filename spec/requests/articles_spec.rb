@@ -119,4 +119,18 @@ RSpec.describe "Articles", type: :request do
       end
     end
   end
+
+  describe "DELETE /articles/:id" do
+    let(:article) { Article.create(title: "削除する記事", content: "この記事は削除されます。") }
+    context "記事が存在する場合" do
+      it "記事を削除できる" do
+        expect {
+          delete "/articles/#{article.id}"
+        }.to change(Article, :count).by(-1)
+
+      expect(response).to have_http_status(204)
+      expect(Article.exists?(article.id)).to be false
+      end
+    end
+  end
 end
