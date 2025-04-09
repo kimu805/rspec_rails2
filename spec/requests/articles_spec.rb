@@ -17,4 +17,25 @@ RSpec.describe "Articles", type: :request do
       expect(json.second["title"]).to eq("2番目の記事")
     end
   end
+
+  describe "POST /articles" do
+    context "有効なパラメーターの場合" do
+      it "記事を作成できる" do
+        expect {
+          post "/articles", params: {
+            article: {
+              title: "新しい記事",
+              content: "この記事は新しく作成されました。"
+            }
+          }
+        }.to change(Article, :count).by(1)
+
+        expect(response).to have_http_status(201)
+
+        json = JSON.parse(response.body)
+        expect(json["title"]).to eq("新しい記事")
+        expect(json["content"]).to eq("この記事は新しく作成されました。")
+      end
+    end
+  end
 end
