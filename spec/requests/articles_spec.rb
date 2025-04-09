@@ -39,7 +39,21 @@ RSpec.describe "Articles", type: :request do
     end
 
     context "無効なパラメーターである場合" do
-      it ""
+      it "記事を作成できない" do
+        expect {
+          post "/articles", params: {
+            article: {
+              title: "",
+              content: ""
+            }
+          }
+        }.to change(Article, :count).by(0)
+
+        json = JSON.parse(response.body)
+        expect(json["title"].first).to include("blank")
+        expect(json["content"].first).to include("blank")
+        expect(json["content"].second).to include("short")
+      end
     end
   end
 end
