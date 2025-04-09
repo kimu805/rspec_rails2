@@ -47,7 +47,7 @@ RSpec.describe "Articles", type: :request do
               content: ""
             }
           }
-        }.to change(Article, :count).by(0)
+        }.not_to change(Article, :count)
 
         json = JSON.parse(response.body)
         expect(json["title"].first).to include("blank")
