@@ -8,9 +8,9 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
 
     if @article.save
-      render json: @article, status: :created
+      render json: @article, status: :created # 201
     else
-      render json: @article.errors, status: :unprocessable_entity
+      render json: @article.errors, status: :unprocessable_entity # 422
     end
   end
 
