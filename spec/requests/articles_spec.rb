@@ -49,6 +49,8 @@ RSpec.describe "Articles", type: :request do
           }
         }.not_to change(Article, :count)
 
+        expect(response).to have_http_status(422)
+
         json = JSON.parse(response.body)
         expect(json["title"].first).to include("blank")
         expect(json["content"].first).to include("blank")
