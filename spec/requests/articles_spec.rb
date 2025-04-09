@@ -98,11 +98,24 @@ RSpec.describe "Articles", type: :request do
         expect(response).to have_http_status(422)
 
         json = JSON.parse(response.body)
-        expect(json["title"]).to include("blank")
+        expect(json["title"].first).to include("blank")
 
         article.reload
         expect(article.title).to eq(original_title)
         expect(article.content).to eq(original_content)
+      end
+    end
+
+    context "存在しない記事の場合" do
+      it "404エラーが返される" do
+        patch "/articles/9999", params: {
+          article: {
+            title: "更新された記事",
+            content: "これは更新された記事の内容です。"
+          }
+        }
+
+        expect(response).to have_http_status(404)
       end
     end
   end
