@@ -8,6 +8,7 @@
       <p>
         状態：<%= todo.completed ? "完了" : "未完了" %>
       </p>
+      <%= link_to "編集", edit_todo_path(todo) %>
     </div>
   <% end %>
 </div>
