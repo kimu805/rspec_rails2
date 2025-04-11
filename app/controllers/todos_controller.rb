@@ -8,6 +8,13 @@ class TodosController < ApplicationController
   end
 
   def create
+    @todo = Todo.new(todo_params)
+
+    if @todo.save
+      redirect_to todos_path
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -20,5 +27,10 @@ class TodosController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+  def todo_params
+    params.require(:todo).permit(:title, :description)
   end
 end
