@@ -1,5 +1,10 @@
 <h1>Todo一覧</h1>
 
+<div>
+  <button id="js_button">クリックしてね</button>
+  <p id="js_text" style="display: none;">こんにちは！</p>
+</div>
+
 <div class="todos">
   <% @todos.each do |todo| %>
     <div class="todo">
@@ -14,3 +19,14 @@
 </div>
 
 <%= link_to "新規作成", new_todo_path %>
+
+<script>
+  document.addEventListener(DOMContentLoaded, () => {
+    const button = document.getElementById("js_button")
+    const text = document.getElementById("js_text")
+
+    button.addEventListener("click", () => {
+      text.style.display = text.style.display === "none" ? "block" : "none";
+    })
+  })
+</script>
