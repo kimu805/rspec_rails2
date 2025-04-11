@@ -1,6 +1,6 @@
 class Todo < ApplicationRecord
-  with_option presence: true do
+  with_options presence: true do
     validates :title
-    validates :description, length: { minimum: 10 }
+    validates :description, length: { minimum: 10, allow_blank: true }
   end
 end
