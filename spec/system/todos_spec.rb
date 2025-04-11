@@ -38,5 +38,30 @@ RSpec.describe "Todo管理", type: :system do
       expect(page).to have_content("Title can't be blank")
       expect(page).to have_content("Description can't be blank")
     end
+
+    it "説明が10文字未満の場合、エラーメッセージが表示される" do
+      visit new_todo_path
+
+      fill_in "タイトル", with: "テストTodo"
+      fill_in "説明", with: "短すぎ"
+
+      click_button "作成"
+      expect(page).to have_content("Description is too short (minimum is 10 characters)")
+    end
+
+    it "エラー後、正しい入力で登録できる" do
+      visit new_todo_path
+
+      click_button "作成"
+      expect(page).to have_content("Title can't be blank")
+
+      fill_in "タイトル", with: "RSpecを学ぶ"
+      fill_in "説明", with: "システムスペックについて理解を深める"
+      click_button "作成"
+
+      expect(current_path).to eq(todos_path)
+      expect(page).to have_content("RSpecを学ぶ")
+      expect(page).to have_content("システムスペックについて理解を深める")
+    end
   end
 end
