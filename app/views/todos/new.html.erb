@@ -1,6 +1,17 @@
 <h1>新規Todo作成</h1>
 
+<% if @todo.errors.any? %>
+  <div class="error-messages"></div>
+  <h2><%= @todo.errors.count %>件のエラーがあります</h2>
+  <ul>
+    <% @todo.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <%= form_with(model: @todo, local: true) do |f| %>
+
   <div>
     <%= f.label :title, "タイトル" %>
     <%= f.text_field :title %>
