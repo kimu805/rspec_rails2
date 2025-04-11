@@ -5,7 +5,7 @@ RSpec.describe "Todo管理", type: :system do
     driven_by(:rack_test)
   end
 
-  context "正常系" do
+  context "一覧機能" do
     it "Todo一覧を表示する" do
       Todo.create!(title: "testTodo", description: "これはテストTodoの説明です。")
       visit todos_path
@@ -14,7 +14,9 @@ RSpec.describe "Todo管理", type: :system do
       expect(page).to have_content("これはテストTodoの説明です。")
       expect(page).to have_content("未完了")
     end
+  end
 
+  context "新規作成機能" do
     it "新規Todoを作成できる" do
       visit new_todo_path
 
@@ -62,6 +64,36 @@ RSpec.describe "Todo管理", type: :system do
       expect(current_path).to eq(todos_path)
       expect(page).to have_content("RSpecを学ぶ")
       expect(page).to have_content("システムスペックについて理解を深める")
+    end
+  end
+
+  context "編集機能" do
+    before do
+      @todo = Todo.create(title: "テスト駆動開発", description: "アプリケーションをテスト駆動で実装する")
+    end
+
+    it "Todoを編集できる" do
+      visit todos_path
+      click_link "編集"
+
+      fill_in "タイトル", with: "RSpec入門"
+      fill_in "説明", with: "システムスペックについて理解を深める"
+      click_button "更新"
+
+      expect(current_path).to eq(todos_path)
+      expect(page).to have_content("RSpec入門")
+      expect(page).to have_content("システムスペックについて理解を深める")
+    end
+
+    it "編集画面で不正な値を入力するとエラーメッセージが表示される" do
+      visit edit_todo_path(@todo)
+      fill_in "タイトル", with: ""
+      fill_in "説明", with: "短すぎ"
+
+      click_button "更新"
+
+      expect(page).to have_content("Title can't be blank")
+      expect(page).to have_content("Description is too short (minimum is 10 characters)")
     end
   end
 end
