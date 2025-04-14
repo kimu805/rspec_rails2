@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Article, type: :model do
   let(:title) { "RSpecの基本" }
-  let(:content) { "RSpecを学びましょう。楽しいですよ！" }
+  let(:content) { "RSpecを学びましょう。楽しいですよ" }
   subject { Article.new(title: title, content: content) }
 
   describe "validation" do
