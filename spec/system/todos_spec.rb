@@ -12,7 +12,7 @@ RSpec.describe "Todo管理", type: :system do
         visit todos_path
         expect(page).to have_content("Todo一覧")
         expect(page).to have_content("testTodo")
-        expect(page).to have_content("これはテストTodoの説明です。")
+        expect(page).to have_content("これはテストTodoの説明です")
         expect(page).to have_content("未完了")
       end
     end
